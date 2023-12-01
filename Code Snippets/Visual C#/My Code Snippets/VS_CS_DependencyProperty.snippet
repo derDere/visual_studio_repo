@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Dependency Property</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a C# property and its associated Dependency Property, including the PropertyChanged method for WPF.</Description>
+      <Shortcut>depe</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>PropertyName</ID>
+          <ToolTip>Please replace with the desired property name.</ToolTip>
+          <Default>MyNewDependencyProperty</Default>
+        </Literal>
+        <Literal>
+          <ID>PropertyType</ID>
+          <ToolTip>Please replace with the desired property type.</ToolTip>
+          <Default>String</Default>
+        </Literal>
+        <Literal>
+          <ID>OwnerType</ID>
+          <ToolTip>Please replace with the desired owner type.</ToolTip>
+          <Default>OwnerClass</Default>
+        </Literal>
+        <Literal>
+          <ID>DefaultValue</ID>
+          <ToolTip>Please replace with the desired default value.</ToolTip>
+          <Default>null</Default>
+        </Literal>
+        <Literal>
+          <ID>Comment</ID>
+          <ToolTip>Please enter property description.</ToolTip>
+          <Default>...</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="C#" Kind="method body"><![CDATA[#region $PropertyType$ $PropertyName$ = $DefaultValue$ from $OwnerType$ ($Comment$)
+    private $PropertyType$ _$PropertyName$ = $DefaultValue$;
+    /// <summary>
+    /// $Comment$
+    /// </summary>
+    public static DependencyProperty $PropertyName$Property =
+      DependencyProperty.Register("$PropertyName$",
+                                  typeof($PropertyType$),
+                                  typeof($OwnerType$),
+                                  new PropertyMetadata($DefaultValue$, $PropertyName$_Changed));
+    /// <summary>
+    /// $Comment$
+    /// </summary>
+    public $PropertyType$ $PropertyName$ {
+      get {
+        return _$PropertyName$;
+      }
+      set {
+        _$PropertyName$ = value;
+      }
+    }
+    private static void $PropertyName$_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
+	    $OwnerType$ owner = sender as $OwnerType$;
+      if (owner != null) {
+        owner.$PropertyName$ = ($PropertyType$)e.NewValue;
+      }
+    }
+#endregion]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

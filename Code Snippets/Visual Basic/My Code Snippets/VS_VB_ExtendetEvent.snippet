@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Extendet Event</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a new local event along with a global variant, including overridables and raiser.</Description>
+      <Shortcut>eevent</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>EventName</ID>
+          <ToolTip>Please replace with the desired event name.</ToolTip>
+          <Default>UnknownEvent</Default>
+        </Literal>
+        <Literal>
+          <ID>EventArgsType</ID>
+          <ToolTip>Please replace with the desired type of EventArgs.</ToolTip>
+          <Default>EventArgs</Default>
+        </Literal>
+        <Literal>
+          <ID>Comment</ID>
+          <ToolTip>Please enter a description of the event.</ToolTip>
+          <Default>...</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="VB" Kind="method body"><![CDATA['-------------------------------------------------------------------
+  ' $Comment$
+  Public Shared Event Global$EventName$(e As $EventArgsType$)
+  Public Event $EventName$(sender As Object, e As $EventArgsType$)
+  Public Overridable Sub On$EventName$(e As $EventArgsType$)
+  End Sub
+  <DebuggerHidden>
+  Private Sub Raise$EventName$(e As $EventArgsType$)
+    On$EventName$(e)
+    RaiseEvent $EventName$(Me, e)
+    RaiseEvent Global$EventName$(e)
+  End Sub]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

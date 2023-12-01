@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Extendet Event</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a new local event along with a global variant, including overridables and raiser.</Description>
+      <Shortcut>eevent</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>EventName</ID>
+          <ToolTip>Please replace with the desired event name.</ToolTip>
+          <Default>UnknownEvent</Default>
+        </Literal>
+        <Literal>
+          <ID>EventArgsType</ID>
+          <ToolTip>Please replace with the desired type of EventArgs.</ToolTip>
+          <Default>EventArgs</Default>
+        </Literal>
+        <Literal>
+          <ID>Comment</ID>
+          <ToolTip>Please enter a description of the event.</ToolTip>
+          <Default>...</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="C#" Kind="method body"><![CDATA[// -------------------------------------------------------------------
+    // $Comment$
+    public delegate void $EventName$Handler(object sender, $EventArgsType$ e);
+    public event $EventName$Handler $EventName$;
+    public delegate void Global$EventName$Handler($EventArgsType$ e);
+    public static event Global$EventName$Handler Global$EventName$;
+    [System.Diagnostics.DebuggerHidden]
+    protected virtual void On$EventName$($EventArgsType$ e) { }
+    [System.Diagnostics.DebuggerHidden]
+    private void Raise$EventName$($EventArgsType$ e)
+    {
+      On$EventName$(e);
+      $EventName$?.Invoke(this, e);
+      Global$EventName$?.Invoke(e);
+    }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

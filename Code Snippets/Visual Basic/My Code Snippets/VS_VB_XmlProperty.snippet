@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Xml Property</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a VB property with a base XPath pointing to an XmlNode Value.</Description>
+      <Shortcut>xprop</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>PropertyName</ID>
+          <ToolTip>Please replace with the desired property name.</ToolTip>
+          <Default>MyNewXmlProperty</Default>
+        </Literal>
+        <Literal>
+          <ID>XmlNode</ID>
+          <ToolTip>Please replace with the desired XmlNode variable.</ToolTip>
+          <Default>MyNode</Default>
+        </Literal>
+        <Literal>
+          <ID>XPath</ID>
+          <ToolTip>Please replace with the desired XML path.</ToolTip>
+          <Default>./*/text()</Default>
+        </Literal>
+        <Literal>
+          <ID>Comment</ID>
+          <ToolTip>Please enter property description.</ToolTip>
+          <Default>...</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="VB" Kind="method body"><![CDATA[<DebuggerBrowsable(DebuggerBrowsableState.Never)>
+  Private Const $PropertyName$_PROPERTY_XPATH As String = "$XPath$"
+  ''' <summary>
+  ''' $Comment$
+  ''' </summary>
+  Public Property $PropertyName$() As String
+    Get
+      If $XmlNode$.SelectSingleNode($PropertyName$_PROPERTY_XPATH) IsNot Nothing Then
+        Return $XmlNode$.SelectSingleNode($PropertyName$_PROPERTY_XPATH).Value
+      End If
+      Return ""
+    End Get
+    Set(ByVal value As String)
+      If $XmlNode$.SelectSingleNode($PropertyName$_PROPERTY_XPATH) IsNot Nothing Then
+        $XmlNode$.SelectSingleNode($PropertyName$_PROPERTY_XPATH).Value = value
+      End If
+    End Set
+  End Property]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

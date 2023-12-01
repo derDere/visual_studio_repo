@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Singelton Property</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a shared VB property that has a private instance, MySelf, as its base. This instance is initialized uniquely in the shared new constructor and utilizes Newtonsoft Json Tools for storage.</Description>
+      <Shortcut>jprop</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>PropertyName</ID>
+          <ToolTip>Please replace with the desired property name.</ToolTip>
+          <Default>MyProperty</Default>
+        </Literal>
+        <Literal>
+          <ID>PropertyType</ID>
+          <ToolTip>Please replace with the desired type of the variable.</ToolTip>
+          <Default>Object</Default>
+        </Literal>
+        <Literal>
+          <ID>PropertyDefaultValue</ID>
+          <ToolTip>Please replace with the desired default value.</ToolTip>
+          <Default>Nothing</Default>
+        </Literal>
+        <Literal>
+          <ID>SingeltonInstance</ID>
+          <ToolTip>Please replace with the name of the private instance.</ToolTip>
+          <Default>MySelf</Default>
+        </Literal>
+        <Literal>
+          <ID>Comment</ID>
+          <ToolTip>Please enter property description.</ToolTip>
+          <Default>...</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="VB" Kind="method body"><![CDATA[<DebuggerBrowsable(DebuggerBrowsableState.Never)>
+  <Newtonsoft.Json.JsonProperty("$PropertyName$")>
+  Private _$PropertyName$ As $PropertyType$ = $PropertyDefaultValue$
+  ''' <summary>
+  ''' $Comment$
+  ''' </summary>
+  Public shared Property $PropertyName$() As $PropertyType$
+    Get
+      Return $SingeltonInstance$._$PropertyName$
+    End Get
+    Set(ByVal value As $PropertyType$)
+      $SingeltonInstance$._$PropertyName$ = value
+    End Set
+  End Property]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

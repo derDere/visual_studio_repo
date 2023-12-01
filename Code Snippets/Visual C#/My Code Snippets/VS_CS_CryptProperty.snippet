@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Crypt Config Property</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a property with a Crypt Config Item as its base, containing simple types.</Description>
+      <Shortcut>crypprop</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>PropertyName</ID>
+          <ToolTip>Please replace with the desired property name.</ToolTip>
+          <Default>MyNewCryptProperty</Default>
+        </Literal>
+        <Literal>
+          <ID>CryptType</ID>
+          <ToolTip>Please replace with the desired variable type.</ToolTip>
+          <Default>String</Default>
+        </Literal>
+        <Literal>
+          <ID>DefaultValue</ID>
+          <ToolTip>Please replace with the desired default value.</ToolTip>
+          <Default>"DefaultStringValue"</Default>
+        </Literal>
+        <Literal>
+          <ID>Comment</ID>
+          <ToolTip>Please enter property description.</ToolTip>
+          <Default>...</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="C#" Kind="method body"><![CDATA[[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private const $CryptType$ $PropertyName$_DEFAULT = $DefaultValue$;
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private const string $PropertyName$_Key = "$PropertyName$";
+    /// <summary>
+    /// $Comment$
+    /// </summary>
+    [CryptedMachineConfig.CryptPropertyInfo($PropertyName$_Key,$PropertyName$_DEFAULT)]
+    public $CryptType$ $PropertyName$ {
+      get {
+        return ($CryptType$)this[$PropertyName$_Key];
+      }
+      set {
+        this[$PropertyName$_Key] = value;
+      }
+    }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
