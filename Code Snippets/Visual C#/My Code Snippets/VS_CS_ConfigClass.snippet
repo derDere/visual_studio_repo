@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Config Class</Title>
+      <Author>github.com/derDere</Author>
+      <Description>Creates a singelton config class with a json save and reload function.</Description>
+      <Shortcut>cconfig</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>ClassComment</ID>
+          <ToolTip>Please enter class description.</ToolTip>
+          <Default>This class is used to store the configuration of the application.</Default>
+        </Literal>
+        <Literal>
+          <ID>ClassModifier</ID>
+          <ToolTip>Please enter class modifier.</ToolTip>
+          <Default>internal</Default>
+        </Literal>
+        <Literal>
+          <ID>ClassName</ID>
+          <ToolTip>Please enter class name.</ToolTip>
+          <Default>Config</Default>
+        </Literal>
+        <Literal>
+          <ID>Filename</ID>
+          <ToolTip>Please replace with the desired file name.</ToolTip>
+          <Default>config.json</Default>
+        </Literal>
+        <Literal>
+          <ID>CompanyName</ID>
+          <ToolTip>Please replace with the desired company name.</ToolTip>
+          <Default>MyCompany</Default>
+        </Literal>
+        <Literal>
+          <ID>ApplicationName</ID>
+          <ToolTip>Please replace with the desired application name.</ToolTip>
+          <Default>MyApp</Default>
+        </Literal>
+        <Literal>
+          <ID>SingeltonName</ID>
+          <ToolTip>Please enter name of the singelton instance variable.</ToolTip>
+          <Default>MySelf</Default>
+        </Literal>
+        <Literal>
+          <ID>ReloadComment</ID>
+          <ToolTip>Please enter reload function description.</ToolTip>
+          <Default>This method reloads the configuration of the application.</Default>
+        </Literal>
+        <Literal>
+          <ID>ReloadName</ID>
+          <ToolTip>Please enter reload function name.</ToolTip>
+          <Default>Reload</Default>
+        </Literal>
+        <Literal>
+          <ID>SaveComment</ID>
+          <ToolTip>Please enter save function description.</ToolTip>
+          <Default>This method saves the configuration of the application.</Default>
+        </Literal>
+        <Literal>
+          <ID>SaveName</ID>
+          <ToolTip>Please enter save funtion name.</ToolTip>
+          <Default>Save</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp" Kind="method body"><![CDATA[/// <summary>
+  /// $ClassComment$
+  /// </summary>
+  $ClassModifier$ class $ClassName$ {
+
+    #region Construction
+    private const string FILENAME = "$Filename$";
+    private const string COMPANY_NAME = "$CompanyName$";
+    private const string FOLDERNAME = "$ApplicationName$";
+
+    private static $ClassName$ $SingeltonName$ = null;
+
+    /// <summary>
+    /// $ReloadComment$
+    /// </summary>
+    public static void $ReloadName$() {
+      string path = GetConfigPath();
+      if (System.IO.File.Exists(path)) {
+        string json = System.IO.File.ReadAllText(path);
+        $SingeltonName$ = Newtonsoft.Json.JsonConvert.DeserializeObject<$ClassName$>(json);
+      } else {
+        $SaveName$();
+      }
+    }
+
+    /// <summary>
+    /// $SaveComment$
+    /// </summary>
+    public static void $SaveName$() {
+      if ($SingeltonName$ == null) {
+        $SingeltonName$ = new $ClassName$();
+      }
+      string path = GetConfigPath();
+      string json = Newtonsoft.Json.JsonConvert.SerializeObject($SingeltonName$, Newtonsoft.Json.Formatting.Indented);
+      System.IO.File.WriteAllText(path, json);
+    }
+
+    private static string GetConfigPath() {
+      string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+      path = System.IO.Path.Combine(path, COMPANY_NAME);
+      if (!System.IO.Directory.Exists(path)) {
+        System.IO.Directory.CreateDirectory(path);
+      }
+      path = System.IO.Path.Combine(path, FOLDERNAME);
+      if (!System.IO.Directory.Exists(path)) {
+        System.IO.Directory.CreateDirectory(path);
+      }
+      return System.IO.Path.Combine(path, FILENAME);
+    }
+
+    static $ClassName$() {
+      $ReloadName$();
+    }
+    #endregion
+
+    //TODO: Add properties here
+  }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
