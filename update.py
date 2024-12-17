@@ -1,14 +1,32 @@
 """Copies all CodeSnippets to all Visual Studio folders.
 """
 
+
 import os
 import shutil
 import subprocess
+
 
 def get_documents_path():
   """Returns the path to the Documents folder. using "powershell [Environment]::GetFolderPath('MyDocuments')"
   """
   cmd = ["powershell", "[Environment]::GetFolderPath('MyDocuments')"]
+  process = subprocess.Popen(
+    cmd,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    universal_newlines=True
+  )
+  stdout, stderr = process.communicate()
+  if process.returncode != 0:
+    raise subprocess.CalledProcessError(process.returncode, " ".join(cmd), stdout, stderr)
+  return stdout.strip()
+
+
+def get_home_path():
+  """Returns the path to the user's home folder.
+  """
+  cmd = ["powershell", "[Environment]::GetFolderPath('UserProfile')"]
   process = subprocess.Popen(
     cmd,
     stdout=subprocess.PIPE,
@@ -54,15 +72,38 @@ def copy_and_replace_files_recursively(source, destination):
         )
 
 
+def copy_code_snippets(source):
+  """Copies all CodeSnippets to all Visual Studio folders
+  """
+  print("Copying Code Snippets")
+  visual_studio_folders = get_all_visual_studio_folders()
+  for folder in visual_studio_folders:
+    print(f" - Copying files to: {folder}")
+    copy_and_replace_files_recursively(source, folder)
+
+
+def copy_copilot_instructions(source):
+  """Copies the Copilot instructions to all Visual Studio folders.
+  """
+  print("Copying Copilot Instructions")
+  FILE_NAME = "copilot-instructions.md"
+  source_instructions_file = os.path.join(source, FILE_NAME)
+  home_folder = get_home_path()
+  github_folder = os.path.join(home_folder, ".github")
+  if not os.path.exists(github_folder):
+    os.makedirs(github_folder)
+  target_instructions_file = os.path.join(github_folder, FILE_NAME)
+  print(f" - Copying file to: {target_instructions_file}")
+  shutil.copyfile(source_instructions_file, target_instructions_file)
+
+
 def main():
   """Main function.
   """
   source = os.getcwd()
   print(f"Source Directory: {source}")
-  visual_studio_folders = get_all_visual_studio_folders()
-  for folder in visual_studio_folders:
-    print(f"Copying files to: {folder}")
-    copy_and_replace_files_recursively(source, folder)
+  copy_code_snippets(source)
+  #copy_copilot_instructions(source)
 
 
 if __name__ == "__main__":
